@@ -5,10 +5,9 @@ cryptography
 dataclasses
 dnspython
 josepy
-lxml
 odoorpc
 openpyxl
 openupgradelib
 pysftp
-sentry_sdk
+sentry_sdk>=1.17.0
 unidecode
