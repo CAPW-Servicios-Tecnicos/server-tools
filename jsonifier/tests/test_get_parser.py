@@ -3,7 +3,6 @@
 # Simone Orsi <simahawk@gmail.com>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-import mock
 
 from odoo import fields, tools
 from odoo.exceptions import UserError
@@ -132,6 +131,8 @@ class TestParser(SavepointCase):
         self.assertEqual(parser, expected_full_parser)
 
     def test_json_export(self):
+        # will allow to view large dict diff in case of regression
+        self.maxDiff = None
         # Enforces TZ to validate the serialization result of a Datetime
         parser = [
             "lang",
@@ -181,10 +182,61 @@ class TestParser(SavepointCase):
             "create_date": "2019-10-31T15:39:49+01:00",
             "date": "2019-10-31",
         }
+        expected_json_with_fieldname = {
+            "_fieldname_lang": "Language",
+            "lang": "en_US",
+            "_fieldname_comment": "Notes",
+            "comment": None,
+            "_fieldname_credit_limit": "Credit Limit",
+            "credit_limit": 0.0,
+            "_fieldname_name": "Name",
+            "name": "Akretion",
+            "_fieldname_color": "Color Index",
+            "color": 0,
+            "_fieldname_children": "Contact",
+            "children": [
+                {
+                    "_fieldname_children": "Contact",
+                    "children": [],
+                    "_fieldname_email": "Email",
+                    "email": None,
+                    "_fieldname_country": "Country",
+                    "country": {
+                        "_fieldname_code": "Country Code",
+                        "code": "FR",
+                        "_fieldname_name": "Country Name",
+                        "name": "France",
+                    },
+                    "_fieldname_name": "Name",
+                    "name": "Sebatien Beau",
+                    "_fieldname_id": "ID",
+                    "id": self.partner.child_ids.id,
+                }
+            ],
+            "_fieldname_country": "Country",
+            "country": {
+                "_fieldname_code": "Country Code",
+                "code": "FR",
+                "_fieldname_name": "Country Name",
+                "name": "France",
+            },
+            "_fieldname_active": "Active",
+            "active": True,
+            "_fieldname_category_id": "Tags",
+            "category_id": [{"_fieldname_name": "Tag Name", "name": "Inovator"}],
+            "_fieldname_create_date": "Created on",
+            "create_date": "2019-10-31T15:39:49+01:00",
+            "_fieldname_date": "Date",
+            "date": "2019-10-31",
+        }
         json_partner = self.partner.jsonify(parser)
-
         self.assertDictEqual(json_partner[0], expected_json)
-
+        json_partner_with_fieldname = self.partner.jsonify(
+            parser=parser, with_fieldname=True
+        )
+        self.assertDictEqual(
+            json_partner_with_fieldname[0], expected_json_with_fieldname
+        )
         # Check that only boolean fields have boolean values into json
         # By default if a field is not set into Odoo, the value is always False
         # This value is not the expected one into the json
@@ -341,24 +393,25 @@ class TestParser(SavepointCase):
     def test_bad_parsers_fail_gracefully(self):
         rec = self.category
 
-        logger_patch_path = "odoo.addons.jsonifier.models.models._logger.error"
-
-        # logging is disabled when testing as it's useless and makes build fail.
+        # logging is disabled when testing as it makes too much noise
         tools.config["test_enable"] = False
 
+        logger_name = "odoo.addons.jsonifier.models.models"
         bad_field_name = ["Name"]
-        with mock.patch(logger_patch_path) as mocked_logger:
+        with self.assertLogs(logger=logger_name, level="WARNING") as capt:
             rec.jsonify(bad_field_name, one=True)
-            mocked_logger.assert_called()
+            self.assertIn("res.partner.category.Name not availabl", capt.output[0])
 
         bad_function_name = {"fields": [{"name": "name", "function": "notafunction"}]}
-        with mock.patch(logger_patch_path) as mocked_logger:
+        with self.assertLogs(logger=logger_name, level="WARNING") as capt:
             rec.jsonify(bad_function_name, one=True)
-            mocked_logger.assert_called()
+            self.assertIn(
+                "res.partner.category.notafunction not available", capt.output[0]
+            )
 
         bad_subparser = {"fields": [({"name": "name"}, [{"name": "subparser_name"}])]}
-        with mock.patch(logger_patch_path) as mocked_logger:
+        with self.assertLogs(logger=logger_name, level="WARNING") as capt:
             rec.jsonify(bad_subparser, one=True)
-            mocked_logger.assert_called()
+            self.assertIn("res.partner.category.name not relational", capt.output[0])
 
         tools.config["test_enable"] = True
