@@ -33,8 +33,8 @@ addon | version | maintainers | summary
 [base_contextvars](base_contextvars/) | 14.0.1.0.4 | <a href='https://github.com/sbidoul'><img src='https://github.com/sbidoul.png' width='32' height='32' style='border-radius:50%;' alt='sbidoul'/></a> | Patch Odoo threadlocals to use contextvars instead.
 [base_cron_exclusion](base_cron_exclusion/) | 14.0.1.0.0 | <a href='https://github.com/LoisRForgeFlow'><img src='https://github.com/LoisRForgeFlow.png' width='32' height='32' style='border-radius:50%;' alt='LoisRForgeFlow'/></a> | Allow you to select scheduled actions that should not run simultaneously.
 [base_custom_info](base_custom_info/) | 14.0.1.0.3 |  | Add custom field in models
-[base_deterministic_session_gc](base_deterministic_session_gc/) | 14.0.1.0.0 |  | Provide a deterministic session garbage collection instead of the default random one
-[base_exception](base_exception/) | 14.0.2.1.1 | <a href='https://github.com/hparfr'><img src='https://github.com/hparfr.png' width='32' height='32' style='border-radius:50%;' alt='hparfr'/></a> <a href='https://github.com/sebastienbeau'><img src='https://github.com/sebastienbeau.png' width='32' height='32' style='border-radius:50%;' alt='sebastienbeau'/></a> | This module provide an abstract model to manage customizable exceptions to be applied on different models (sale order, invoice, ...)
+[base_deterministic_session_gc](base_deterministic_session_gc/) | 14.0.1.0.1 |  | Provide a deterministic session garbage collection instead of the default random one
+[base_exception](base_exception/) | 14.0.3.0.0 | <a href='https://github.com/hparfr'><img src='https://github.com/hparfr.png' width='32' height='32' style='border-radius:50%;' alt='hparfr'/></a> <a href='https://github.com/sebastienbeau'><img src='https://github.com/sebastienbeau.png' width='32' height='32' style='border-radius:50%;' alt='sebastienbeau'/></a> | This module provide an abstract model to manage customizable exceptions to be applied on different models (sale order, invoice, ...)
 [base_fontawesome](base_fontawesome/) | 14.0.5.15.5 |  | Up to date Fontawesome resources.
 [base_force_record_noupdate](base_force_record_noupdate/) | 14.0.1.0.0 |  | Manually force noupdate=True on models
 [base_future_response](base_future_response/) | 14.0.1.0.2 | <a href='https://github.com/sbidoul'><img src='https://github.com/sbidoul.png' width='32' height='32' style='border-radius:50%;' alt='sbidoul'/></a> | Backport Odoo 16 FutureReponse mechanism.
@@ -80,7 +80,7 @@ addon | version | maintainers | summary
 [letsencrypt](letsencrypt/) | 14.0.1.0.2 |  | Request SSL certificates from letsencrypt.org
 [mail_cleanup](mail_cleanup/) | 14.0.1.0.0 |  | Mark as read or delete mails after a set time
 [model_read_only](model_read_only/) | 14.0.3.0.2 | <a href='https://github.com/ilyasProgrammer'><img src='https://github.com/ilyasProgrammer.png' width='32' height='32' style='border-radius:50%;' alt='ilyasProgrammer'/></a> | Model Read Only
-[module_analysis](module_analysis/) | 14.0.1.0.2 |  | Add analysis tools regarding installed modules to know which installed modules comes from Odoo Core, OCA, or are custom modules
+[module_analysis](module_analysis/) | 14.0.1.0.3 |  | Add analysis tools regarding installed modules to know which installed modules comes from Odoo Core, OCA, or are custom modules
 [module_auto_update](module_auto_update/) | 14.0.1.1.1 |  | Automatically update Odoo modules
 [module_change_auto_install](module_change_auto_install/) | 14.0.1.0.3 | <a href='https://github.com/legalsylvain'><img src='https://github.com/legalsylvain.png' width='32' height='32' style='border-radius:50%;' alt='legalsylvain'/></a> | Customize auto installables modules by configuration
 [module_prototyper](module_prototyper/) | 14.0.1.0.1 |  | Prototype your module.
